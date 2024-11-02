@@ -32,6 +32,8 @@ __C.TRAIN = dict(__C.TRAIN)
 # Dataset options
 __C.DATASET = edict()
 __C.DATASET.DATA_DIR = ''
+__C.DATASET.TRAIN_SPLIT = 'train'
+__C.DATASET.VALIDATION_SPLIT = 'val'
 __C.DATASET = dict(__C.DATASET)
 
 
@@ -44,7 +46,7 @@ def _merge_a_into_b(a, b):
 
     for k, v in a.items():
         # a must specify keys that are in b
-        if not k in b:
+        if k not in b:
             raise KeyError('{} is not a valid config key'.format(k))
 
         # the types must match, too
