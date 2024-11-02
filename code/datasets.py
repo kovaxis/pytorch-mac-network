@@ -24,15 +24,14 @@ from config import cfg
 
 
 class ClevrDataset(data.Dataset):
-    def __init__(self, data_dir, split='train'):
+    def __init__(self, data_dir, split):
 
         with open(os.path.join(data_dir, '{}.pkl'.format(split)), 'rb') as f:
             self.data = pickle.load(f)
         self.img = h5py.File(os.path.join(data_dir, '{}_features.h5'.format(split)), 'r')['features']
 
     def __getitem__(self, index):
-        imgfile, question, answer, family = self.data[index]
-        id = int(imgfile.rsplit('_', 1)[1][:-4])
+        id, question, answer, family = self.data[index]
         img = torch.from_numpy(self.img[id])
 
         return img, question, len(question), answer, family
